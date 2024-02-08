@@ -11,8 +11,8 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { db } from '../lib/firebase.js';
-import { auth } from '../lib/firebase.js';
+import { db } from "../lib/firebase.js";
+import { auth } from "../lib/firebase.js";
 import { AddIcon } from "@chakra-ui/icons";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -65,7 +65,7 @@ const Suggestions = () => {
       );
       const albums = albumData.data.releases;
 
-      const albumTitles = [...new Set(albums.map(album => album.title))];
+      const albumTitles = [...new Set(albums.map((album) => album.title))];
       const albumTitlesString = albumTitles.join("\n");
 
       setResultAlbum(albumTitles);
@@ -80,95 +80,109 @@ const Suggestions = () => {
       if (!user) {
         return;
       }
-  
+
       const userId = user.uid;
-      const likeRef = doc(db, 'likes', userId);
-  
+      const likeRef = doc(db, "likes", userId);
+
       const likeSnapshot = await getDoc(likeRef);
       let likesData = likeSnapshot.data();
-  
+
       if (!likesData) {
         likesData = {
           user: userId,
           likes: [],
         };
       }
-  
+
       const newLike = { artist, album, song };
-      if (!likesData.likes.some(like => JSON.stringify(like) === JSON.stringify(newLike))) {
+      if (
+        !likesData.likes.some(
+          (like) => JSON.stringify(like) === JSON.stringify(newLike)
+        )
+      ) {
         likesData.likes.push(newLike);
       }
-  
+
       await setDoc(likeRef, likesData);
-  
-      console.log('Like saved successfully');
+
+      console.log("Like saved successfully");
     } catch (error) {
-      console.error('Error saving like:', error);
+      console.error("Error saving like:", error);
     }
   };
 
   return (
     <Center>
       <VStack>
+        <Box width="max-content">
         <Text
           bgGradient="linear(to-l,#00E9F5 ,#61E294 )"
           bgClip="text"
           fontSize="6xl"
           fontWeight="extrabold"
         >
-          Find album
+          Find albums and songs
         </Text>
-        <Box>
-          <Input
-            type="text"
-            placeholder="Enter artist name"
-            value={artist}
-            onChange={(e) => setArtist(e.target.value)}
-            my={4}
-          />
-          <Button onClick={handleAlbumSearch} bg={"green.300"}>
-            Search albums
-          </Button>
-          <Input
-            type="text"
-            placeholder="Enter album name"
-            value={album}
-            onChange={(e) => setAlbum(e.target.value)}
-            my={4}
-          />
-          <Button onClick={handleSearch} bg={"green.300"}>
-            Search songs
-          </Button>
+          <HStack>
+            <Input
+              type="text"
+              placeholder="Enter artist name"
+              value={artist}
+              onChange={(e) => setArtist(e.target.value)}
+              my={4}
+            />
+            <Button onClick={handleAlbumSearch} bg={"green.300"}>
+              Search albums
+            </Button>
+          </HStack>
+
+          <HStack>
+            <Input
+              type="text"
+              placeholder="Enter album name"
+              value={album}
+              onChange={(e) => setAlbum(e.target.value)}
+              my={4}
+            />
+            <Button onClick={handleSearch} bg={"green.300"}>
+              Search songs
+            </Button>
+          </HStack>
+
           <HStack spacing={8}>
             <Box w="50%" borderWidth={1} borderRadius="lg" p={4}>
               <Heading>Albums</Heading>
               {resultAlbum &&
                 resultAlbum.map((title, index) => (
-                <HStack> 
-                  <Button
-                  colorScheme="white"
-                  variant="ghost"
-                   onClick={() => handleLike(artist, title, null)}>{<AddIcon/>}</Button>
-                  <Text key={index}>{title}</Text>
-                </HStack>
+                  <HStack>
+                    <Button
+                      colorScheme="white"
+                      variant="ghost"
+                      onClick={() => handleLike(artist, title, null)}
+                    >
+                      {<AddIcon />}
+                    </Button>
+                    <Text key={index}>{title}</Text>
+                  </HStack>
                 ))}
-            </Box>
-            {" "}
+            </Box>{" "}
             <Box w="50%" borderWidth={1} borderRadius="lg" p={4}>
               {" "}
-              <Heading mb={4}>Releases</Heading>{" "}
+              <Heading>Songs</Heading>{" "}
               {result &&
                 result.map((release, index) => (
                   <HStack key={index}>
                     <Button
-                    colorScheme="white"
-                    variant="ghost"
-                     onClick={() => handleLike(artist, album, release.title)}>{<AddIcon/>}</Button>
+                      colorScheme="white"
+                      variant="ghost"
+                      onClick={() => handleLike(artist, album, release.title)}
+                    >
+                      {<AddIcon />}
+                    </Button>
                     <Text>{release.title}</Text>
                   </HStack>
                 ))}
             </Box>
-
           </HStack>
         </Box>
       </VStack>

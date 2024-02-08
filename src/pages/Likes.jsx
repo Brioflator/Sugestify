@@ -28,7 +28,7 @@ const songs = likes.map(like => like.song).filter(song => song !== null);
   return (
     <Center>
     <HStack spacing={20} mt={50}>
-    <VStack spacing={8}>
+    <VStack spacing={8} borderWidth={1} borderRadius="lg" p={10} pt={5} bg="teal.50">
     <Text
           bgGradient="linear(to-l,#00E9F5 ,#61E294 )"
           bgClip="text"
@@ -44,7 +44,7 @@ const songs = likes.map(like => like.song).filter(song => song !== null);
     ))}
     </VStack>
     
-    <VStack spacing={8}>
+    <VStack spacing={8} borderWidth={1} borderRadius="lg" p={10} pt={5} bg="teal.50">
     <Text
           bgGradient="linear(to-l,#00E9F5 ,#61E294 )"
           bgClip="text"
@@ -60,7 +60,7 @@ const songs = likes.map(like => like.song).filter(song => song !== null);
     ))} 
     </VStack>
     
-    <VStack spacing={8}>
+    <VStack spacing={8} borderWidth={1} borderRadius="lg" p={10} pt={5} bg="teal.50">
     <Text
           bgGradient="linear(to-l,#00E9F5 ,#61E294 )"
           bgClip="text"
