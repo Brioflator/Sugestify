@@ -8,6 +8,7 @@ import {
   Text,
   InputGroup,
   InputRightElement,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ import { auth } from "../lib/firebase";
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const boxColor = useColorModeValue("teal.50", "teal.900");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +50,7 @@ const LoginPage = () => {
       <Center
         flexDirection="column"
         p="20"
-        bg="teal.50"
+        bg={boxColor}
         boxShadow="2"
         borderRadius="lg"
       >

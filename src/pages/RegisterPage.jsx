@@ -8,6 +8,7 @@ import {
   Text,
   InputGroup,
   InputRightElement,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -21,6 +22,8 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const boxColor = useColorModeValue("teal.50", "teal.900");
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
@@ -50,7 +53,7 @@ const RegisterPage = () => {
       <Center
         flexDirection="column"
         p="20"
-        bg="teal.50"
+        bg={boxColor}
         boxShadow="2"
         borderRadius="lg"
       >
